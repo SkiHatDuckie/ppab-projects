@@ -1,4 +1,4 @@
-# PPAB-projects
+# ppab-projects
 Various implementations of project ideas from Programming Projects for Advanced Beginners.
 
 The main purpose of this repository is to help me get a better idea of how different
