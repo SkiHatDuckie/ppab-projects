@@ -1,3 +1,5 @@
+# Python v3.9.7
+
 from PIL import Image
 
 
@@ -39,6 +41,7 @@ def asciify(matrix):
     return "".join(ascii_art)
 
 
+# Main function
 if __name__ == "__main__":
     rgb_matrix = load_img()
     brightness_matrix = get_brightness(rgb_matrix)
