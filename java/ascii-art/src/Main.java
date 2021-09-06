@@ -27,7 +27,7 @@ public class Main {
     static int[][] load_img() {
         // Load image to a buffer
         BufferedImage img = null;
-        try { img = ImageIO.read(new File("resources\\ascii-pineapple.jpg")); } 
+        try { img = ImageIO.read(new File("resources/ascii-pineapple.jpg")); } 
             catch (IOException e) {}
 
         // Resize so that it can fit on screen
@@ -74,6 +74,7 @@ public class Main {
                 row++;
             }
         }
+
         return brightness_matrix;
     }
 
@@ -90,6 +91,7 @@ public class Main {
                 row++;
             }
         }
+        
         return ascii_art;
     }
 

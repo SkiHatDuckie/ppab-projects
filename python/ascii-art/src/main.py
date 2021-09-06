@@ -5,7 +5,7 @@ from PIL import Image
 
 # Load an image and store its pixel data as a matrix (2D array)
 def load_img():
-    with Image.open("resources\\ascii-pineapple.jpg") as img:
+    with Image.open("resources/ascii-pineapple.jpg") as img:
         # Resize so that it can fit on screen
         new_img = img.resize((int(img.width / 6), int(img.height / 6)))
         # Get pixel data as list
