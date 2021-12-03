@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.lang.Math;
 import javax.imageio.ImageIO;
 
-class Imaging {
+// Main function
+public class Main {
+    // Resize an image
     public static BufferedImage resizeImage(BufferedImage img, int w, int h) {
         BufferedImage new_img = new BufferedImage(w, h, img.getType());
 
@@ -19,55 +21,47 @@ class Imaging {
 
         return new_img;
     }
-}
 
-// Main function
-public class Main {
     // Load an image and store its pixel data as a matrix (2D array)
-    static int[][] load_img() {
+    public static int[][][] load_img() {
         // Load image to a buffer
         BufferedImage img = null;
         try { img = ImageIO.read(new File("resources/ascii-pineapple.jpg")); } 
             catch (IOException e) {}
 
         // Resize so that it can fit on screen
-        BufferedImage new_img = Imaging.resizeImage(img, img.getWidth() / 6, img.getHeight() / 6);
+        BufferedImage new_img = resizeImage(img, img.getWidth() / 6, img.getHeight() / 6);
         int width = new_img.getWidth();
         int height = new_img.getHeight();
 
         // Convert buffer to byte array
         byte[] pixels = ((DataBufferByte) new_img.getRaster().getDataBuffer()).getData();
 
-        // Convert byte array to 2D array of ints
-        int[][] rgb_matrix = new int[height][width];
+        // Convert byte array to RGB matrix
+        int[][][] rgb_matrix = new int[height][width][3];
         int pixel_length = 3;
         for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixel_length) {
-            int argb = 0;
-            argb += -16777216;                                // 255 alpha
-            argb += ((int) pixels[pixel] & 0xff);             // blue
-            argb += (((int) pixels[pixel + 1] & 0xff) << 8);  // green
-            argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-            rgb_matrix[row][col] = argb;
+            rgb_matrix[row][col][2] += Byte.toUnsignedInt(pixels[pixel]);      // blue
+            rgb_matrix[row][col][1] += Byte.toUnsignedInt(pixels[pixel + 1]);  // green
+            rgb_matrix[row][col][0] += Byte.toUnsignedInt(pixels[pixel + 2]);  // red
             col++;                      
             if (col == width) {
                 col = 0;
                 row++;
             }
         }
-        // Important note: This stores each pixel color as a packed int instead of an array 
-        // (TODO: Should this be changed?)
 
         System.out.printf("Matrix size: %d x %d%n", width, height);
         return rgb_matrix;
     }
 
-    // Convert RGB packed int to brightness numbers
-    static int[][] get_brightness(int[][] rgb_matrix) {
+    // Convert RGB matrix to brightness numbers
+    public static int[][] get_brightness(int[][][] rgb_matrix) {
         int[][] brightness_matrix = new int[rgb_matrix.length][rgb_matrix[1].length];
         for (int row = 0, col = 0; row < rgb_matrix.length; col++) {
-            int r = (rgb_matrix[row][col] >>> 16) & 0xFF;  // Extract color info from packed int
-            int g = (rgb_matrix[row][col] >>>  8) & 0xFF;
-            int b = (rgb_matrix[row][col] >>>  0) & 0xFF;
+            int r = rgb_matrix[row][col][0];
+            int g = rgb_matrix[row][col][1];
+            int b = rgb_matrix[row][col][2];
             brightness_matrix[row][col] = (r + g + b) / 3;
             if (col == rgb_matrix[1].length - 1) {
                 col = 0;
@@ -79,7 +73,7 @@ public class Main {
     }
 
     // Convert brightness matrix to ASCII art
-    static String asciify(int[][] matrix) {
+    public static String asciify(int[][] matrix) {
         String ascii_art = new String();
         String ascii_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
         for (int row = 0, col = 0; row < matrix.length; col++) {
@@ -96,7 +90,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int[][] rgb_matrix = load_img();
+        int[][][] rgb_matrix = load_img();
         int[][] brightness_matrix = get_brightness(rgb_matrix);
         String ascii_art = asciify(brightness_matrix);
         System.out.println(ascii_art);
