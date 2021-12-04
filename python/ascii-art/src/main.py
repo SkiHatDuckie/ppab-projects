@@ -41,7 +41,7 @@ def asciify(matrix):
     return "".join(ascii_art)
 
 
-# Main function
+# Main
 if __name__ == "__main__":
     rgb_matrix = load_img()
     brightness_matrix = get_brightness(rgb_matrix)
