@@ -7,6 +7,7 @@ use image::{
 };
 
 // Load an image and store its pixel data as a matrix (2D array)
+// RETURN: Matrix of RGB values
 fn load_img() -> RgbImage {
     // Load image to a buffer
     let img = image::open("../../resources/ascii-pineapple.jpg").unwrap();
@@ -24,6 +25,8 @@ fn load_img() -> RgbImage {
 }
 
 // Convert RGB arrays to brightness numbers
+// rgb_matrix: Matrix of RGB values
+// RETURN: Matrix of integers representing brightness
 fn get_brightness(rgb_matrix: RgbImage) -> Vec<Vec<u8>> {
     let mut brightness_matrix = vec![vec![0u8; rgb_matrix.width() as usize]; rgb_matrix.height() as usize];
     let mut col: usize = 0;
@@ -41,6 +44,8 @@ fn get_brightness(rgb_matrix: RgbImage) -> Vec<Vec<u8>> {
 }
 
 // Convert brightness matrix to ASCII art
+// matrix: Brightness matrix
+// RETURN: String of ascii character
 fn asciify(matrix: Vec<Vec<u8>>) -> String {
     let mut ascii_art = String::new();
     let ascii_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
@@ -55,7 +60,7 @@ fn asciify(matrix: Vec<Vec<u8>>) -> String {
     ascii_art
 }
 
-// Main function
+// Main
 fn main() {
     let rgb_matrix = load_img();
     let brightness_matrix = get_brightness(rgb_matrix);

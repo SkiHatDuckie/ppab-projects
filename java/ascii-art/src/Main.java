@@ -11,6 +11,10 @@ import javax.imageio.ImageIO;
 // Main function
 public class Main {
     // Resize an image
+    // img: Image to be resized
+    // w: Width to resize to
+    // h: Height to resize to
+    // RETURN: Resized image
     public static BufferedImage resizeImage(BufferedImage img, int w, int h) {
         BufferedImage new_img = new BufferedImage(w, h, img.getType());
 
@@ -23,6 +27,7 @@ public class Main {
     }
 
     // Load an image and store its pixel data as a matrix (2D array)
+    // RETURN: Matrix of RGB values
     public static int[][][] load_img() {
         // Load image to a buffer
         BufferedImage img = null;
@@ -56,6 +61,8 @@ public class Main {
     }
 
     // Convert RGB matrix to brightness numbers
+    // rgb_matrix: Matrix of RGB values
+    // RETURN: Matrix of integers representing brightness
     public static int[][] get_brightness(int[][][] rgb_matrix) {
         int[][] brightness_matrix = new int[rgb_matrix.length][rgb_matrix[1].length];
         for (int row = 0, col = 0; row < rgb_matrix.length; col++) {
@@ -73,6 +80,8 @@ public class Main {
     }
 
     // Convert brightness matrix to ASCII art
+    // matrix: Brightness matrix
+    // RETURN: String of ascii character
     public static String asciify(int[][] matrix) {
         String ascii_art = new String();
         String ascii_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
@@ -89,6 +98,7 @@ public class Main {
         return ascii_art;
     }
 
+    // Main
     public static void main(String[] args) {
         int[][][] rgb_matrix = load_img();
         int[][] brightness_matrix = get_brightness(rgb_matrix);
